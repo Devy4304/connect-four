@@ -1,4 +1,85 @@
 package ConnectFour;
 
+import java.util.Arrays;
+
 public class Game {
+    private char[][] gameBoard;
+    private int currentPlayer;
+
+    public Game() {
+        gameBoard = new char[6][7];
+        for (char[] row : gameBoard) {
+            Arrays.fill(row, ' ');
+        }
+        currentPlayer = 0;
+    }
+
+    public void gravity() {
+        for (int row = 0; row < gameBoard.length - 1; row++) {
+            for (int column = 0; column < gameBoard[0].length; column++) {
+                if (gameBoard[row][column] != ' ' && gameBoard[row + 1][column] == ' ') {
+                    moveTile(new Vec2(row, column), new Vec2(row + 1, column));
+                }
+            }
+        }
+    }
+
+    public boolean verifyPosition(int column) {
+        return gameBoard[0][column] == ' ';
+    }
+
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    private void moveTile(Vec2 origPos, Vec2 newPos) {
+        char temp = gameBoard[origPos.row][origPos.column];
+        gameBoard[origPos.row][origPos.column] = ' ';
+        gameBoard[newPos.row][newPos.column] = temp;
+    }
+
+    private char getCharByPlayer() {
+        return (currentPlayer == 0) ? 'X' : 'O';
+    }
+
+    private String getColoredPlayerChar(char c, String endingColorOveride) {
+        return ((c == 'X') ? Utility.Console.Colors.RED : Utility.Console.Colors.YELLOW) + c + endingColorOveride;
+    }
+
+    private String getColoredPlayerChar(char c) {
+        return ((c == 'X') ? Utility.Console.Colors.RED : Utility.Console.Colors.YELLOW) + c + Utility.Console.Colors.RESET;
+    }
+
+    private void nextTurn() {
+        currentPlayer = (currentPlayer == 0) ? 1 : 0;
+    }
+
+    public boolean placePiece(int column) {
+        if (verifyPosition(column)) {
+             gameBoard[0][column] = getCharByPlayer();
+             nextTurn();
+             gravity();
+             return true;
+        } else return false;
+    }
+
+    public void printBoard() {
+        for (int i = 1; i <= gameBoard[0].length; i++) {
+            System.out.print("   " + i + "  ");
+        }
+        System.out.print(Utility.Console.Colors.BLUE);
+        System.out.println("\n┌" + "─────┬".repeat(6) + "─────┐");
+        int r = 0;
+        for (char[] row : gameBoard) {
+            r++;
+            System.out.print("|");
+            for (char c : row) {
+                System.out.print("  " + getColoredPlayerChar(c, Utility.Console.Colors.BLUE) + "  |");
+            }
+            if (r != gameBoard.length) System.out.println("\n├─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
+            else System.out.println();
+        }
+        System.out.println("└" + "─────┴".repeat(6) + "─────┘\n\n");
+        System.out.print(Utility.Console.Colors.RESET);
+    }
 }
