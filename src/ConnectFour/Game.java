@@ -43,7 +43,11 @@ public class Game {
     }
 
     private String getColoredPlayerChar(char c, String endingColorOveride) {
-        return ((c == 'X') ? Utility.Console.Colors.RED : Utility.Console.Colors.YELLOW) + c + endingColorOveride;
+        if (Utility.Console.hasANSISupport()) {
+            return ((c == 'X') ? Utility.Console.Colors.RED : Utility.Console.Colors.YELLOW) + c + endingColorOveride;
+        } else {
+            return String.valueOf(c);
+        }
     }
 
     private String getColoredPlayerChar(char c) {
@@ -67,19 +71,20 @@ public class Game {
         for (int i = 1; i <= gameBoard[0].length; i++) {
             System.out.print("   " + i + "  ");
         }
-        System.out.print(Utility.Console.Colors.BLUE);
+        Utility.Console.printColorCode(Utility.Console.Colors.BLUE);
         System.out.println("\n┌" + "─────┬".repeat(6) + "─────┐");
         int r = 0;
         for (char[] row : gameBoard) {
             r++;
             System.out.print("|");
             for (char c : row) {
+                // perhaps if the position is a winning state, make the characters green?
                 System.out.print("  " + getColoredPlayerChar(c, Utility.Console.Colors.BLUE) + "  |");
             }
             if (r != gameBoard.length) System.out.println("\n├─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
             else System.out.println();
         }
         System.out.println("└" + "─────┴".repeat(6) + "─────┘\n\n");
-        System.out.print(Utility.Console.Colors.RESET);
+        Utility.Console.printColorCode(Utility.Console.Colors.RESET);
     }
 }

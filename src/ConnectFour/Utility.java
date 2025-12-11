@@ -39,6 +39,16 @@ public class Utility {
             }
         }
 
+        public static boolean hasANSISupport() {
+            return canDisplayANSICodes;
+        }
+
+        public static void printColorCode(String colorCode) {
+            if (canDisplayANSICodes) {
+                System.out.print(colorCode);
+            }
+        }
+
         public static int getBoxWidth() {
             return boxWidth;
         }
