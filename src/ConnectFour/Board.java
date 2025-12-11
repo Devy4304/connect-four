@@ -56,6 +56,49 @@ public class Board {
         }
     }
 
+    public boolean checkWin(char player) {
+        if (player != 'X' && player != 'O') {
+            throw new Error("Invalid Player");
+        }
+
+        // check horizontal
+        for (char[] row : gameBoard) {
+            for (int i = 0; i < COLUMNS - 3; i++) {
+                if (row[i] == player && row[i+1] == player && row[i+2] == player && row[i+3] == player) {
+                    return true;
+                }
+            }
+        }
+        // check vertical
+        for (int c = 0; c < COLUMNS; c++) {
+            for (int r = 0; r < ROWS - 3; r++) {
+                if (gameBoard[r][c] == player && gameBoard[r + 1][c] == player && gameBoard[r + 2][c] == player && gameBoard[r + 3][c] == player) {
+                    return true;
+                }
+            }
+        }
+
+        // check diagonal down-right
+        for (int r = 0; r < ROWS - 3; r++) {
+            for (int c = 0; c < COLUMNS - 3; c++) {
+                if (gameBoard[r][c] == player && gameBoard[r + 1][c + 1] == player && gameBoard[r + 2][c + 2] == player && gameBoard[r + 3][c + 3] == player) {
+                    return true;
+                }
+            }
+        }
+
+        // check diagonal down-left
+        for (int r = 3; r < ROWS; r++) {
+            for (int c = 0; c < COLUMNS - 3; c++) {
+                if (gameBoard[r][c] == player && gameBoard[r + 1][c - 1] == player && gameBoard[r + 2][c - 2] == player && gameBoard[r + 3][c - 3] == player) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public void printBoard() {
         for (int i = 1; i <= gameBoard[0].length; i++) {
             if (!verifyPosition(i - 1)) Utility.Console.printColorCode(Utility.Console.Colors.RED);
@@ -78,6 +121,7 @@ public class Board {
         System.out.println("└" + "─────┴".repeat(6) + "─────┘\n\n");
         Utility.Console.printColorCode(Utility.Console.Colors.RESET);
     }
+
     private void moveTile(Vec2 origPos, Vec2 newPos) {
         char temp = gameBoard[origPos.row][origPos.column];
         gameBoard[origPos.row][origPos.column] = ' ';
