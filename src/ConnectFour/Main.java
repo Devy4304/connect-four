@@ -9,10 +9,10 @@ public class Main {
 
         // ---- testing code ----
         for (int i = 0; i < 7; i++) {
-            game.placePiece(0);
-            game.printBoard();
+            game.board.placePiece(game, 0);
+            game.board.printBoard();
         }
-        game.placePiece(1);
-        game.printBoard();
+        game.board.placePiece(game, 1);
+        game.board.printBoard();
     }
 }

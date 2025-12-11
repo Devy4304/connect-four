@@ -9,4 +9,9 @@ public class MinimaxModel implements Model {
         // implement model
         return 0;
     }
+
+    private double evaluateMove(Board board, int column) {
+
+        return 0;
+    }
 }
