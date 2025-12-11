@@ -69,7 +69,9 @@ public class Game {
 
     public void printBoard() {
         for (int i = 1; i <= gameBoard[0].length; i++) {
+            if (!verifyPosition(i - 1)) Utility.Console.printColorCode(Utility.Console.Colors.RED);
             System.out.print("   " + i + "  ");
+            Utility.Console.printColorCode(Utility.Console.Colors.RESET);
         }
         Utility.Console.printColorCode(Utility.Console.Colors.BLUE);
         System.out.println("\n┌" + "─────┬".repeat(6) + "─────┐");
