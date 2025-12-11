@@ -1,13 +1,16 @@
 package ConnectFour;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Game {
     private char[][] gameBoard;
+    private final int ROWS = 6;
+    private final int COLUMNS = 7;
     private int currentPlayer;
 
     public Game() {
-        gameBoard = new char[6][7];
+        gameBoard = new char[ROWS][COLUMNS];
         for (char[] row : gameBoard) {
             Arrays.fill(row, ' ');
         }
@@ -32,30 +35,14 @@ public class Game {
         return currentPlayer;
     }
 
-    private void moveTile(Vec2 origPos, Vec2 newPos) {
-        char temp = gameBoard[origPos.row][origPos.column];
-        gameBoard[origPos.row][origPos.column] = ' ';
-        gameBoard[newPos.row][newPos.column] = temp;
-    }
-
-    private char getCharByPlayer() {
-        return (currentPlayer == 0) ? 'X' : 'O';
-    }
-
-    private String getColoredPlayerChar(char c, String endingColorOveride) {
-        if (Utility.Console.hasANSISupport()) {
-            return ((c == 'X') ? Utility.Console.Colors.RED : Utility.Console.Colors.YELLOW) + c + endingColorOveride;
-        } else {
-            return String.valueOf(c);
+    public ArrayList<Integer> getValidMoves() {
+        ArrayList<Integer> moves = new ArrayList<>();
+        for (int i = 0; i < COLUMNS; i++) {
+            if (verifyPosition(i)) {
+                moves.add(i);
+            }
         }
-    }
-
-    private String getColoredPlayerChar(char c) {
-        return ((c == 'X') ? Utility.Console.Colors.RED : Utility.Console.Colors.YELLOW) + c + Utility.Console.Colors.RESET;
-    }
-
-    private void nextTurn() {
-        currentPlayer = (currentPlayer == 0) ? 1 : 0;
+        return moves;
     }
 
     public boolean placePiece(int column) {
@@ -88,5 +75,30 @@ public class Game {
         }
         System.out.println("└" + "─────┴".repeat(6) + "─────┘\n\n");
         Utility.Console.printColorCode(Utility.Console.Colors.RESET);
+    }
+    private void moveTile(Vec2 origPos, Vec2 newPos) {
+        char temp = gameBoard[origPos.row][origPos.column];
+        gameBoard[origPos.row][origPos.column] = ' ';
+        gameBoard[newPos.row][newPos.column] = temp;
+    }
+
+    private char getCharByPlayer() {
+        return (currentPlayer == 0) ? 'X' : 'O';
+    }
+
+    private String getColoredPlayerChar(char c, String endingColorOveride) {
+        if (Utility.Console.hasANSISupport()) {
+            return ((c == 'X') ? Utility.Console.Colors.RED : Utility.Console.Colors.YELLOW) + c + endingColorOveride;
+        } else {
+            return String.valueOf(c);
+        }
+    }
+
+    private String getColoredPlayerChar(char c) {
+        return ((c == 'X') ? Utility.Console.Colors.RED : Utility.Console.Colors.YELLOW) + c + Utility.Console.Colors.RESET;
+    }
+
+    private void nextTurn() {
+        currentPlayer = (currentPlayer == 0) ? 1 : 0;
     }
 }
