@@ -20,9 +20,7 @@ public class Board {
         gameBoard = new char[ROWS][COLUMNS];
 
         for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLUMNS; j++) {
-                gameBoard[i][j] = other.gameBoard[i][j];
-            }
+            System.arraycopy(other.gameBoard[i], 0, gameBoard[i], 0, COLUMNS);
         }
     }
 
