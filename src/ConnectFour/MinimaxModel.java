@@ -9,4 +9,6 @@ public class MinimaxModel implements Model {
         // implement model
         return 0;
     }
+
+
 }
