@@ -13,7 +13,7 @@ public class Game {
         return currentPlayer;
     }
 
-    private void nextTurn() {
+    public void nextTurn() {
         currentPlayer = (currentPlayer == 0) ? 1 : 0;
     }
 }

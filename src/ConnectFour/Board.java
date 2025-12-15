@@ -42,6 +42,7 @@ public class Board {
         if (verifyPosition(column)) {
             gameBoard[0][column] = getCharByPlayer(game);
             gravity();
+            game.nextTurn();
             return true;
         } else return false;
     }

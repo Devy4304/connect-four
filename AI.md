@@ -10,7 +10,7 @@ When the program is run, a menu like this or something will be shown.
 ```
     MODEL NAME          DIFFICULTY   SPEED
 ===========================================
-[1] Minimax Model       Hard         Slow
+[1] Custom Model        Medium       Decent
 [2] Random Choice       Easy         Fast
 ```
 ### Model Usage
@@ -23,4 +23,4 @@ Each model will be a separate class that each has the same methods and parameter
  - Returns an int that determines the location of the next move to make
  - Any AI code will be initiated / ran from here
 
-***If I add more commands they will be here**
+***If I add more commands, they will be here**
