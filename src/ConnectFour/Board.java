@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Board {
+    public int currentPlayer;
+
     private char[][] gameBoard;
     private final int ROWS = 6;
     private final int COLUMNS = 7;
@@ -12,6 +14,7 @@ public class Board {
 
     public Board() {
         gameBoard = new char[ROWS][COLUMNS];
+        currentPlayer = 0;
 
         for (char[] row : gameBoard) {
             Arrays.fill(row, ' ');
@@ -20,6 +23,7 @@ public class Board {
 
     public Board(Board other) {
         gameBoard = new char[ROWS][COLUMNS];
+        currentPlayer = other.currentPlayer;
 
         for (int i = 0; i < ROWS; i++) {
             System.arraycopy(other.gameBoard[i], 0, gameBoard[i], 0, COLUMNS);
@@ -40,11 +44,19 @@ public class Board {
         return gameBoard[0][column] == ' ';
     }
 
-    public boolean placePiece(Game game, int column) {
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void nextTurn() {
+        currentPlayer = (currentPlayer == 0) ? 1 : 0;
+    }
+
+    public boolean placePiece(int column) {
         if (verifyPosition(column)) {
-            gameBoard[0][column] = getCharByPlayer(game);
+            gameBoard[0][column] = getCharByPlayer();
             gravity();
-            game.nextTurn();
+            nextTurn();
             return true;
         } else return false;
     }
@@ -131,8 +143,8 @@ public class Board {
         gameBoard[newPos.row][newPos.column] = temp;
     }
 
-    private char getCharByPlayer(Game game) {
-        return (game.currentPlayer == 0) ? 'X' : 'O';
+    private char getCharByPlayer() {
+        return (currentPlayer == 0) ? 'X' : 'O';
     }
 
     private String getColoredPlayerChar(char c, String endingColorOverride) {
