@@ -36,6 +36,8 @@ public class CustomModel implements Model{
 
         Math.floor(-Math.abs(move.column - 3) + 4);
      */
+
+    // this will be used when evaluating boards
     private int evaluateWindow(char[] window, int maximizingPlayer) {
         char maximizingChar = game.board.indexToPlayerCharacter(maximizingPlayer);
         char minimizingChar = game.board.indexToPlayerCharacter(1 - maximizingPlayer);
