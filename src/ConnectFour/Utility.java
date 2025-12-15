@@ -70,14 +70,14 @@ public class Utility {
             return input;
         }
 
-        public static int getNumericalInput(int min, int max, List<Integer> validValues, int offset, boolean includeDraw) {
+        public static int getNumericalInput(int min, int max, List<Integer> validValues, int offset) {
             int input;
             System.out.println();
             do {
                 System.out.print("  => ");
                 input = scanner.nextInt();
                 System.out.println();
-            } while (input < min || input > max || !(validValues.contains(input + offset) || (includeDraw && (input == max))));
+            } while (input < min || input > max || !(validValues.contains(input + offset)));
             return input;
         }
 

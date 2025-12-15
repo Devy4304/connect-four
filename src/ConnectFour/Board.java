@@ -7,6 +7,8 @@ public class Board {
     private char[][] gameBoard;
     private final int ROWS = 6;
     private final int COLUMNS = 7;
+    public static final char PLAYER = 'X';
+    public static final char BOT = 'O';
 
     public Board() {
         gameBoard = new char[ROWS][COLUMNS];
@@ -139,6 +141,10 @@ public class Board {
         } else {
             return String.valueOf(c);
         }
+    }
+
+    public char indexToPlayerCharacter(int player) {
+        return ((player == 0) ? PLAYER : BOT);
     }
 
     private String getColoredPlayerChar(char c) {
