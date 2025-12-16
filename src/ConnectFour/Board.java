@@ -7,17 +7,18 @@ public class Board {
     public int currentPlayer;
 
     private char[][] gameBoard;
-    private final int ROWS = 6;
-    private final int COLUMNS = 7;
+    public static final int ROWS = 6;
+    public static final int COLUMNS = 7;
     public static final char PLAYER = 'X';
     public static final char BOT = 'O';
+    public static final char EMPTY = ' ';
 
     public Board() {
         gameBoard = new char[ROWS][COLUMNS];
         currentPlayer = 0;
 
         for (char[] row : gameBoard) {
-            Arrays.fill(row, ' ');
+            Arrays.fill(row, EMPTY);
         }
     }
 
@@ -25,8 +26,8 @@ public class Board {
         gameBoard = new char[ROWS][COLUMNS];
         currentPlayer = other.currentPlayer;
 
-        for (int i = 0; i < ROWS; i++) {
-            System.arraycopy(other.gameBoard[i], 0, gameBoard[i], 0, COLUMNS);
+        for (int r = 0; r < ROWS; r++) {
+            System.arraycopy(other.gameBoard[r], 0, gameBoard[r], 0, COLUMNS);
         }
     }
 
@@ -41,7 +42,7 @@ public class Board {
     }
 
     public boolean verifyPosition(int column) {
-        return gameBoard[0][column] == ' ';
+        return gameBoard[0][column] == EMPTY;
     }
 
     public int getCurrentPlayer() {
@@ -61,10 +62,23 @@ public class Board {
         } else return false;
     }
 
+    public char[][] getGameBoard() {
+        return gameBoard;
+    }
+
+    public boolean placePiece(int column, int player) {
+        if (verifyPosition(column)) {
+            gameBoard[0][column] = indexToPlayerCharacter(player);
+            gravity();
+            nextTurn();
+            return true;
+        } else return false;
+    }
+
     public void gravity() {
         for (int row = 0; row < gameBoard.length - 1; row++) {
             for (int column = 0; column < gameBoard[0].length; column++) {
-                if (gameBoard[row][column] != ' ' && gameBoard[row + 1][column] == ' ') {
+                if (gameBoard[row][column] != EMPTY && gameBoard[row + 1][column] == EMPTY) {
                     moveTile(new Vec2(row, column), new Vec2(row + 1, column));
                 }
             }
@@ -103,8 +117,8 @@ public class Board {
         }
 
         // check diagonal down-left
-        for (int r = 3; r < ROWS; r++) {
-            for (int c = 0; c < COLUMNS - 3; c++) {
+        for (int r = 0; r < ROWS - 3; r++) {
+            for (int c = 3; c < COLUMNS; c++) {
                 if (gameBoard[r][c] == player && gameBoard[r + 1][c - 1] == player && gameBoard[r + 2][c - 2] == player && gameBoard[r + 3][c - 3] == player) {
                     return true;
                 }
@@ -135,6 +149,16 @@ public class Board {
         }
         System.out.println("└" + "─────┴".repeat(6) + "─────┘\n\n");
         Utility.Console.printColorCode(Utility.Console.Colors.RESET);
+        printSimpleBoard();
+    }
+
+    private void printSimpleBoard() {
+        for (char[] row : gameBoard) {
+            for (char c : row) {
+                System.out.print(c + " ");
+            }
+            System.out.println();
+        }
     }
 
     private void moveTile(Vec2 origPos, Vec2 newPos) {

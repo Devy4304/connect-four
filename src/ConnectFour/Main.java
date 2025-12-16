@@ -5,7 +5,7 @@ public class Main {
         Utility.Console.checkForANSI();
 
         Game game = new Game();
-        String[] modelDetails = {RandomModel.getDetails(), CustomModel.getDetails()};
+        String[] modelDetails = {RandomModel.getDetails(), MinimaxModel.getDetails()};
 
         // Select model
         System.out.println("    MODEL NAME          DIFFICULTY   SPEED");
@@ -16,20 +16,33 @@ public class Main {
 
         int selection = Utility.Console.getNumericalInput(1, modelDetails.length);
 
+        Model model;
+
         switch (selection) {
             case 1 -> {
-                RandomModel model = new RandomModel(game);
+                model = new RandomModel(game);
             }
             default -> {
-                CustomModel model = new CustomModel(game);
+                model = new MinimaxModel(game);
             }
         }
 
         Utility.Console.printTitle();
 
         game.board.printBoard();
-        int pos = Utility.Console.getNumericalInput(1, 7, game.board.getValidMoves(), -1);
-        game.board.placePiece(game, pos - 1);
-
+        while (true) {
+            int pos = Utility.Console.getNumericalInput(1, 7, game.board.getValidMoves(), -1);
+            game.board.placePiece(pos - 1, 0);
+            if (game.board.checkWin(Board.PLAYER)) {
+                System.out.println("Player win");
+                break;
+            }
+            game.board.placePiece(model.getMove(), 1);
+            game.board.printBoard();
+            if (game.board.checkWin(Board.BOT)) {
+                System.out.println("Bot win");
+                break;
+            }
+        }
     }
 }
