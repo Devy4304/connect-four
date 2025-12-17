@@ -63,13 +63,15 @@ public class MinimaxModel implements Model{
     }
 
     private int minimax(Board board, int depth, int alpha, int beta, boolean isMaximizing) {
-        if (board.checkWin(Board.BOT)) return 1000000 + depth;
-        if (board.checkWin(Board.PLAYER)) return -1000000 + depth;
-        if (depth == 0) return evaluateBoard(board.getGameBoard());
+        if (board.checkWin(Board.BOT)) return 1000000 - depth;
+        if (board.checkWin(Board.PLAYER)) return -1000000 - depth;
+        
+        java.util.List<Integer> validMoves = board.getValidMoves();
+        if (validMoves.isEmpty() || depth == 0) return evaluateBoard(board.getGameBoard());
 
         if (isMaximizing) {
             int maxEval = MINIMUM;
-            for (int col : board.getValidMoves()) {
+            for (int col : validMoves) {
                 Board temp = new Board(board);
                 temp.placePiece(col, Board.BOT);
                 // Alternate to false
@@ -81,7 +83,7 @@ public class MinimaxModel implements Model{
             return maxEval;
         } else {
             int minEval = MAXIMUM;
-            for (int col : board.getValidMoves()) {
+            for (int col : validMoves) {
                 Board temp = new Board(board);
                 temp.placePiece(col, Board.PLAYER);
                 int eval = minimax(temp, depth - 1, alpha, beta, true);
