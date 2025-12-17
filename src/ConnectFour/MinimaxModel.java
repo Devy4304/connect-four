@@ -2,7 +2,7 @@ package ConnectFour;
 
 /*
     This was a pain to get working.
-    But, it is now decent enough, much better than the random one :)
+    But it is now decent enough, much better than the random one :)
  */
 
 

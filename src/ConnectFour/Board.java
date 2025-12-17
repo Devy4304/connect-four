@@ -7,6 +7,7 @@ public class Board {
     public int currentPlayer;
 
     private final char[][] gameBoard;
+
     public static final int ROWS = 6;
     public static final int COLUMNS = 7;
     public static final char PLAYER = 'X';
@@ -83,6 +84,10 @@ public class Board {
         }
     } while (moved);
 }
+
+    public char indexToPlayerCharacter(int player) {
+        return ((player == 0) ? PLAYER : BOT);
+    }
 
     public boolean checkWin(char player) {
         if (player != 'X' && player != 'O') {
@@ -166,9 +171,5 @@ public class Board {
         } else {
             return String.valueOf(c);
         }
-    }
-
-    public char indexToPlayerCharacter(int player) {
-        return ((player == 0) ? PLAYER : BOT);
     }
 }
