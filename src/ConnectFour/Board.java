@@ -6,7 +6,8 @@ import java.util.Arrays;
 public class Board {
     public int currentPlayer;
 
-    private char[][] gameBoard;
+    private final char[][] gameBoard;
+
     public static final int ROWS = 6;
     public static final int COLUMNS = 7;
     public static final char PLAYER = 'X';
@@ -45,44 +46,47 @@ public class Board {
         return gameBoard[0][column] == EMPTY;
     }
 
-    public int getCurrentPlayer() {
-        return currentPlayer;
-    }
-
     public void nextTurn() {
         currentPlayer = (currentPlayer == 0) ? 1 : 0;
     }
 
-    public boolean placePiece(int column) {
+    public void placePiece(int column) {
         if (verifyPosition(column)) {
             gameBoard[0][column] = getCharByPlayer();
             gravity();
             nextTurn();
-            return true;
-        } else return false;
+        }
     }
 
     public char[][] getGameBoard() {
         return gameBoard;
     }
 
-    public boolean placePiece(int column, int player) {
+    public void placePiece(int column, int player) {
         if (verifyPosition(column)) {
             gameBoard[0][column] = indexToPlayerCharacter(player);
             gravity();
             nextTurn();
-            return true;
-        } else return false;
+        }
     }
 
     public void gravity() {
+    boolean moved;
+    do {
+        moved = false;
         for (int row = 0; row < gameBoard.length - 1; row++) {
             for (int column = 0; column < gameBoard[0].length; column++) {
                 if (gameBoard[row][column] != EMPTY && gameBoard[row + 1][column] == EMPTY) {
                     moveTile(new Vec2(row, column), new Vec2(row + 1, column));
+                    moved = true;
                 }
             }
         }
+    } while (moved);
+}
+
+    public char indexToPlayerCharacter(int player) {
+        return ((player == 0) ? PLAYER : BOT);
     }
 
     public boolean checkWin(char player) {
@@ -149,16 +153,6 @@ public class Board {
         }
         System.out.println("└" + "─────┴".repeat(6) + "─────┘\n\n");
         Utility.Console.printColorCode(Utility.Console.Colors.RESET);
-        printSimpleBoard();
-    }
-
-    private void printSimpleBoard() {
-        for (char[] row : gameBoard) {
-            for (char c : row) {
-                System.out.print(c + " ");
-            }
-            System.out.println();
-        }
     }
 
     private void moveTile(Vec2 origPos, Vec2 newPos) {
@@ -177,13 +171,5 @@ public class Board {
         } else {
             return String.valueOf(c);
         }
-    }
-
-    public char indexToPlayerCharacter(int player) {
-        return ((player == 0) ? PLAYER : BOT);
-    }
-
-    private String getColoredPlayerChar(char c) {
-        return ((c == 'X') ? Utility.Console.Colors.RED : Utility.Console.Colors.YELLOW) + c + Utility.Console.Colors.RESET;
     }
 }

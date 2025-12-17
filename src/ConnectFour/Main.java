@@ -5,11 +5,11 @@ public class Main {
         Utility.Console.checkForANSI();
 
         Game game = new Game();
-        String[] modelDetails = {RandomModel.getDetails(), MinimaxModel.getDetails()};
+        String[] modelDetails = {MinimaxModel.getDetails(), RandomModel.getDetails()};
 
         // Select model
         System.out.println("    MODEL NAME          DIFFICULTY   SPEED");
-        System.out.println("===========================================");
+        System.out.println("=============================================");
         for (int i = 0; i < modelDetails.length; i++) {
             System.out.println("[" + (i + 1) + "] " + modelDetails[i]);
         }
@@ -18,13 +18,10 @@ public class Main {
 
         Model model;
 
-        switch (selection) {
-            case 1 -> {
-                model = new RandomModel(game);
-            }
-            default -> {
-                model = new MinimaxModel(game);
-            }
+        if (selection == 1) {
+            model = new MinimaxModel(game);
+        } else {
+            model = new RandomModel(game);
         }
 
         Utility.Console.printTitle();

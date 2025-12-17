@@ -2,18 +2,19 @@ package ConnectFour;
 
 /*
     This was a pain to get working.
-    But, it is now decent enough, much better than the random one :)
+    But it is now decent enough, much better than the random one :)
  */
 
 
 public class MinimaxModel implements Model{
-    public static final String NAME = "Custom Model";
-    public static final String DIFFICULTY = "Medium";
-    public static final String SPEED = "Slow";
+    public static final String NAME = "Minimax Model";
+    public static final String DIFFICULTY = "Hard";
+    public static final String SPEED = "Not Bad";
 
     private static final int DEFAULT_DEPTH = 6;
     private static final int MAXIMUM = 1000000;
     private static final int MINIMUM = -1000000;
+    private static final boolean DEBUG = false;
 
     private final Game game;
 
@@ -36,14 +37,27 @@ public class MinimaxModel implements Model{
 
         for (int col : validMoves) {
             Board temp = new Board(currentBoard);
-            temp.placePiece(col, Board.BOT);
-            if (temp.checkWin(Board.BOT)) return col;
+            if (temp.verifyPosition(col)) {
+                temp.getGameBoard()[0][col] = Board.BOT;
+                temp.gravity();
+                if (temp.checkWin(Board.BOT)) {
+                    if (DEBUG) System.out.println("WINNING MOVE at column: " + col);
+                    return col;
+                }
+            }
         }
 
+        // Check for immediate blocking move
         for (int col : validMoves) {
             Board temp = new Board(currentBoard);
-            temp.placePiece(col, Board.PLAYER);
-            if (temp.checkWin(Board.PLAYER)) return col;
+            if (temp.verifyPosition(col)) {
+                temp.getGameBoard()[0][col] = Board.PLAYER;
+                temp.gravity();
+                if (temp.checkWin(Board.PLAYER)) {
+                    if (DEBUG) System.out.println("BLOCKING at column: " + col);
+                    return col;
+                }
+            }
         }
 
         int bestScore = MINIMUM;
@@ -51,28 +65,34 @@ public class MinimaxModel implements Model{
 
         for (int col : validMoves) {
             Board temp = new Board(currentBoard);
-            temp.placePiece(col, Board.BOT);
+            temp.getGameBoard()[0][col] = Board.BOT;
+            temp.gravity();
             int score = minimax(temp, DEFAULT_DEPTH - 1, MINIMUM, MAXIMUM, false);
+        
+            if (DEBUG) System.out.println("Col " + col + " score: " + score);
 
             if (score > bestScore) {
                 bestScore = score;
                 bestMove = col;
             }
         }
+        if (DEBUG) System.out.println("Choosing column: " + bestMove + " with score: " + bestScore);
         return bestMove;
     }
 
     private int minimax(Board board, int depth, int alpha, int beta, boolean isMaximizing) {
-        if (board.checkWin(Board.BOT)) return 1000000 + depth;
-        if (board.checkWin(Board.PLAYER)) return -1000000 + depth;
-        if (depth == 0) return evaluateBoard(board.getGameBoard());
+        if (board.checkWin(Board.BOT)) return MAXIMUM - depth;
+        if (board.checkWin(Board.PLAYER)) return MINIMUM + (depth * 5);
+
+        java.util.List<Integer> validMoves = board.getValidMoves();
+        if (validMoves.isEmpty() || depth == 0) return evaluateBoard(board.getGameBoard());
 
         if (isMaximizing) {
             int maxEval = MINIMUM;
-            for (int col : board.getValidMoves()) {
+            for (int col : validMoves) {
                 Board temp = new Board(board);
-                temp.placePiece(col, Board.BOT);
-                // Alternate to false
+                temp.getGameBoard()[0][col] = Board.BOT;
+                temp.gravity();
                 int eval = minimax(temp, depth - 1, alpha, beta, false);
                 maxEval = Math.max(maxEval, eval);
                 alpha = Math.max(alpha, eval);
@@ -81,9 +101,10 @@ public class MinimaxModel implements Model{
             return maxEval;
         } else {
             int minEval = MAXIMUM;
-            for (int col : board.getValidMoves()) {
+            for (int col : validMoves) {
                 Board temp = new Board(board);
-                temp.placePiece(col, Board.PLAYER);
+                temp.getGameBoard()[0][col] = Board.PLAYER;
+                temp.gravity();
                 int eval = minimax(temp, depth - 1, alpha, beta, true);
                 minEval = Math.min(minEval, eval);
                 beta = Math.min(beta, eval);
@@ -124,7 +145,6 @@ public class MinimaxModel implements Model{
                 score += evaluateWindow(posWindow) + evaluateWindow(negWindow);
             }
         }
-
         return score;
     }
 
@@ -145,7 +165,7 @@ public class MinimaxModel implements Model{
         if (playerCount == 3 && emptyCount == 1) score -= 500;
 
         if (aiCount == 2 && emptyCount == 2) score += 50;
-        if (playerCount == 2 && emptyCount == 2) score -= 50;
+        if (playerCount == 2 && emptyCount == 2) score -= 80;
 
         return score;
     }
