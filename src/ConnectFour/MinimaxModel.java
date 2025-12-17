@@ -6,7 +6,7 @@ package ConnectFour;
  */
 
 
-public class MinimaxModel implements Model{
+public class MinimaxModel implements Model {
     public static final String NAME = "Minimax Model";
     public static final String DIFFICULTY = "Hard";
     public static final String SPEED = "Not Bad";
@@ -68,7 +68,7 @@ public class MinimaxModel implements Model{
             temp.getGameBoard()[0][col] = Board.BOT;
             temp.gravity();
             int score = minimax(temp, DEFAULT_DEPTH - 1, MINIMUM, MAXIMUM, false);
-        
+
             if (DEBUG) System.out.println("Col " + col + " score: " + score);
 
             if (score > bestScore) {
@@ -126,22 +126,22 @@ public class MinimaxModel implements Model{
 
         for (int r = 0; r < Board.ROWS; r++) {
             for (int c = 0; c < Board.COLUMNS - 3; c++) {
-                char[] window = {board[r][c], board[r][c+1], board[r][c+2], board[r][c+3]};
+                char[] window = {board[r][c], board[r][c + 1], board[r][c + 2], board[r][c + 3]};
                 score += evaluateWindow(window);
             }
         }
 
         for (int c = 0; c < Board.COLUMNS; c++) {
             for (int r = 0; r < Board.ROWS - 3; r++) {
-                char[] window = {board[r][c], board[r+1][c], board[r+2][c], board[r+3][c]};
+                char[] window = {board[r][c], board[r + 1][c], board[r + 2][c], board[r + 3][c]};
                 score += evaluateWindow(window);
             }
         }
 
         for (int r = 0; r < Board.ROWS - 3; r++) {
             for (int c = 0; c < Board.COLUMNS - 3; c++) {
-                char[] posWindow = {board[r][c], board[r+1][c+1], board[r+2][c+2], board[r+3][c+3]};
-                char[] negWindow = {board[r+3][c], board[r+2][c+1], board[r+1][c+2], board[r][c+3]};
+                char[] posWindow = {board[r][c], board[r + 1][c + 1], board[r + 2][c + 2], board[r + 3][c + 3]};
+                char[] negWindow = {board[r + 3][c], board[r + 2][c + 1], board[r + 1][c + 2], board[r][c + 3]};
                 score += evaluateWindow(posWindow) + evaluateWindow(negWindow);
             }
         }

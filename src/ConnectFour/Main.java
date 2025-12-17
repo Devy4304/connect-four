@@ -27,17 +27,21 @@ public class Main {
         Utility.Console.printTitle();
 
         game.board.printBoard();
+
         while (true) {
             int pos = Utility.Console.getNumericalInput(1, 7, game.board.getValidMoves(), -1);
             game.board.placePiece(pos - 1, 0);
             if (game.board.checkWin(Board.PLAYER)) {
-                System.out.println("Player win");
+                Utility.Console.printPlayerWin();
                 break;
             }
             game.board.placePiece(model.getMove(), 1);
             game.board.printBoard();
             if (game.board.checkWin(Board.BOT)) {
-                System.out.println("Bot win");
+                Utility.Console.printBotWin();
+                break;
+            } else if (game.board.checkTie()) {
+                Utility.Console.printTie();
                 break;
             }
         }

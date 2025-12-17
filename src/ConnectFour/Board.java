@@ -71,19 +71,28 @@ public class Board {
     }
 
     public void gravity() {
-    boolean moved;
-    do {
-        moved = false;
-        for (int row = 0; row < gameBoard.length - 1; row++) {
-            for (int column = 0; column < gameBoard[0].length; column++) {
-                if (gameBoard[row][column] != EMPTY && gameBoard[row + 1][column] == EMPTY) {
-                    moveTile(new Vec2(row, column), new Vec2(row + 1, column));
-                    moved = true;
+        boolean moved;
+        do {
+            moved = false;
+            for (int row = 0; row < gameBoard.length - 1; row++) {
+                for (int column = 0; column < gameBoard[0].length; column++) {
+                    if (gameBoard[row][column] != EMPTY && gameBoard[row + 1][column] == EMPTY) {
+                        moveTile(new Vec2(row, column), new Vec2(row + 1, column));
+                        moved = true;
+                    }
                 }
             }
+        } while (moved);
+    }
+
+    public boolean checkTie() {
+        for (char[] row : gameBoard) {
+            for (char c : row) {
+                if (c == EMPTY) return false;
+            }
         }
-    } while (moved);
-}
+        return true;
+    }
 
     public char indexToPlayerCharacter(int player) {
         return ((player == 0) ? PLAYER : BOT);
@@ -97,7 +106,7 @@ public class Board {
         // check horizontal
         for (char[] row : gameBoard) {
             for (int i = 0; i < COLUMNS - 3; i++) {
-                if (row[i] == player && row[i+1] == player && row[i+2] == player && row[i+3] == player) {
+                if (row[i] == player && row[i + 1] == player && row[i + 2] == player && row[i + 3] == player) {
                     return true;
                 }
             }
