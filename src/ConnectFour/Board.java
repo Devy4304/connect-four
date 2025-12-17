@@ -149,16 +149,6 @@ public class Board {
         }
         System.out.println("└" + "─────┴".repeat(6) + "─────┘\n\n");
         Utility.Console.printColorCode(Utility.Console.Colors.RESET);
-        printSimpleBoard();
-    }
-
-    private void printSimpleBoard() {
-        for (char[] row : gameBoard) {
-            for (char c : row) {
-                System.out.print(c + " ");
-            }
-            System.out.println();
-        }
     }
 
     private void moveTile(Vec2 origPos, Vec2 newPos) {
