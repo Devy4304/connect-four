@@ -9,7 +9,7 @@ public class Main {
 
         // Select model
         System.out.println("    MODEL NAME          DIFFICULTY   SPEED");
-        System.out.println("===========================================");
+        System.out.println("=============================================");
         for (int i = 0; i < modelDetails.length; i++) {
             System.out.println("[" + (i + 1) + "] " + modelDetails[i]);
         }
