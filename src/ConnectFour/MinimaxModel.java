@@ -7,7 +7,7 @@ package ConnectFour;
 
 
 public class MinimaxModel implements Model{
-    public static final String NAME = "Custom Model";
+    public static final String NAME = "Minimax Model";
     public static final String DIFFICULTY = "Medium";
     public static final String SPEED = "Slow";
 
