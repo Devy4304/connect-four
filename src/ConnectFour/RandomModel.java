@@ -20,7 +20,7 @@ public class RandomModel implements Model {
         String difficulty = DIFFICULTY;
         name += " ".repeat(20 - NAME.length());
         difficulty += " ".repeat(13 - DIFFICULTY.length());
-        return name + difficulty + SPEED;
+        return name + Utility.Console.colorCode(Utility.Console.Colors.GREEN) + difficulty + Utility.Console.colorCode(Utility.Console.Colors.BLUE) + SPEED + Utility.Console.colorCode(Utility.Console.Colors.RESET);
     }
 
     @Override

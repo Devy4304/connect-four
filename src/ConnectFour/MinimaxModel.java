@@ -27,7 +27,7 @@ public class MinimaxModel implements Model {
         String difficulty = DIFFICULTY;
         name += " ".repeat(20 - NAME.length());
         difficulty += " ".repeat(13 - DIFFICULTY.length());
-        return name + difficulty + SPEED;
+        return name + Utility.Console.colorCode(Utility.Console.Colors.RED) + difficulty + Utility.Console.colorCode(Utility.Console.Colors.YELLOW) + SPEED + Utility.Console.colorCode(Utility.Console.Colors.RESET);
     }
 
     @Override

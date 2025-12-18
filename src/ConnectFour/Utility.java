@@ -49,6 +49,12 @@ public class Utility {
             }
         }
 
+        public static String colorCode(String colorCode) {
+            if (canDisplayANSICodes) {
+                return colorCode;
+            } else return "";
+        }
+
         public static void printTitle() {
             printColorCode(Colors.YELLOW);
             System.out.println("\n  /$$$$$$                                                      /$$   /$$   /$$\n /$$__  $$                                                    | $$  | $$  | $$\n| $$  \\__/  /$$$$$$  /$$$$$$$  /$$$$$$$   /$$$$$$   /$$$$$$$ /$$$$$$| $$  | $$\n| $$       /$$__  $$| $$__  $$| $$__  $$ /$$__  $$ /$$_____/|_  $$_/| $$$$$$$$\n| $$      | $$  \\ $$| $$  \\ $$| $$  \\ $$| $$$$$$$$| $$        | $$  |_____  $$\n| $$    $$| $$  | $$| $$  | $$| $$  | $$| $$_____/| $$        | $$ /$$    | $$\n|  $$$$$$/|  $$$$$$/| $$  | $$| $$  | $$|  $$$$$$$|  $$$$$$$  |  $$$$/    | $$\n \\______/  \\______/ |__/  |__/|__/  |__/ \\_______/ \\_______/   \\___/      |__/\n\n\n");
