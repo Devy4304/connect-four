@@ -33,6 +33,7 @@ public class Main {
             game.board.placePiece(pos - 1, 0);
             if (game.board.checkWin(Board.PLAYER)) {
                 Utility.Console.printPlayerWin();
+                game.board.printBoard();
                 break;
             }
             game.board.placePiece(model.getMove(), 1);
