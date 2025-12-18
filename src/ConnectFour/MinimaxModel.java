@@ -1,5 +1,7 @@
 package ConnectFour;
 
+import static ConnectFour.Utility.Console.colorCode;
+
 /*
     This was a pain to get working.
     But it is now decent enough, much better than the random one :)
@@ -27,7 +29,7 @@ public class MinimaxModel implements Model {
         String difficulty = DIFFICULTY;
         name += " ".repeat(20 - NAME.length());
         difficulty += " ".repeat(13 - DIFFICULTY.length());
-        return name + difficulty + SPEED;
+        return name + colorCode(Utility.Console.Colors.RED) + difficulty + colorCode(Utility.Console.Colors.YELLOW) + SPEED + colorCode(Utility.Console.Colors.RESET);
     }
 
     @Override

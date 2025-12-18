@@ -3,6 +3,8 @@ package ConnectFour;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static ConnectFour.Utility.Console.colorCode;
+
 public class RandomModel implements Model {
     public static final String NAME = "Random Model";
     public static final String DIFFICULTY = "Easy";
@@ -20,7 +22,7 @@ public class RandomModel implements Model {
         String difficulty = DIFFICULTY;
         name += " ".repeat(20 - NAME.length());
         difficulty += " ".repeat(13 - DIFFICULTY.length());
-        return name + difficulty + SPEED;
+        return name + colorCode(Utility.Console.Colors.GREEN) + difficulty + colorCode(Utility.Console.Colors.BLUE) + SPEED + colorCode(Utility.Console.Colors.RESET);
     }
 
     @Override
