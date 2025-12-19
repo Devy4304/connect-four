@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Board {
-    public int currentPlayer;
-
-    private final char[][] gameBoard;
-
     public static final int ROWS = 6;
     public static final int COLUMNS = 7;
     public static final char PLAYER = 'X';
     public static final char BOT = 'O';
     public static final char EMPTY = ' ';
+    private final char[][] gameBoard;
+    public int currentPlayer;
 
     public Board() {
         gameBoard = new char[ROWS][COLUMNS];
@@ -58,16 +56,16 @@ public class Board {
         }
     }
 
-    public char[][] getGameBoard() {
-        return gameBoard;
-    }
-
     public void placePiece(int column, int player) {
         if (verifyPosition(column)) {
             gameBoard[0][column] = indexToPlayerCharacter(player);
             gravity();
             nextTurn();
         }
+    }
+
+    public char[][] getGameBoard() {
+        return gameBoard;
     }
 
     public void gravity() {
